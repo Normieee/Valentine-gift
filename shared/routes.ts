@@ -120,6 +120,16 @@ export const api = {
   },
 };
 
+export type NoteResponse = Note;
+export type CreateNoteRequest = z.infer<typeof api.notes.create.input>;
+export type UpdateNoteRequest = z.infer<typeof api.notes.update.input>;
+
+export type MemoryResponse = Memory;
+export type CreateMemoryRequest = z.infer<typeof api.memories.create.input>;
+
+export type UserPreferenceResponse = UserPreference;
+export type UpdateUserPreferenceRequest = z.infer<typeof api.preferences.update.input>;
+
 // ============================================
 // HELPER FUNCTIONS
 // ============================================

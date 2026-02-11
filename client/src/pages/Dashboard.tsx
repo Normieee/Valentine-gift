@@ -24,7 +24,7 @@ export default function Dashboard() {
   // Use defaults if prefs not set yet
   const partnerName = prefs?.partnerName || "Partner";
   const partnerTimezone = prefs?.partnerTimezone || "Asia/Tokyo";
-  const startDate = prefs?.relationshipStartDate;
+  const startDate = prefs?.relationshipStartDate ? new Date(prefs.relationshipStartDate) : null;
 
   // Get 2 latest notes
   const recentNotes = notes?.slice(0, 2) || [];

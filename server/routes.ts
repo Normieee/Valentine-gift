@@ -19,7 +19,7 @@ export async function registerRoutes(
   // --- NOTES ---
   app.get(api.notes.list.path, isAuthenticated, async (req, res) => {
     // @ts-ignore
-    const userId = req.user!.claims.sub;
+    const userId = req.user!.claims.sub as string;
     const notes = await storage.getNotes(userId);
     res.json(notes);
   });
@@ -65,7 +65,7 @@ export async function registerRoutes(
   // --- MEMORIES ---
   app.get(api.memories.list.path, isAuthenticated, async (req, res) => {
     // @ts-ignore
-    const userId = req.user!.claims.sub;
+    const userId = req.user!.claims.sub as string;
     const memories = await storage.getMemories(userId);
     res.json(memories);
   });
@@ -95,7 +95,7 @@ export async function registerRoutes(
   // --- PREFERENCES ---
   app.get(api.preferences.get.path, isAuthenticated, async (req, res) => {
     // @ts-ignore
-    const userId = req.user!.claims.sub;
+    const userId = req.user!.claims.sub as string;
     const prefs = await storage.getUserPreferences(userId);
     res.json(prefs || {});
   });
