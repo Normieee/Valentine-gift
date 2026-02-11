@@ -48,25 +48,24 @@
 
 /* Custom Utilities for Glassmorphism & Stars */
 .glass-panel {
-  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-xl;
+  @apply bg-black/60 backdrop-blur-xl border border-white/10 shadow-[0_0_50px_-12px_rgba(168,85,247,0.25)];
 }
 
 .glass-card {
-  @apply bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg hover:bg-white/10 transition-colors duration-300;
-}
-
-/* Starry Background Animation */
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(168,85,247,0.2)];
 }
 
 .star {
   position: absolute;
   background: white;
   border-radius: 50%;
+  box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.3);
   animation: twinkle var(--duration, 3s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
+}
+
+.glow-text {
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
 }
 
 /* Scrollbar */
