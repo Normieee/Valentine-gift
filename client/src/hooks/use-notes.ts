@@ -2,22 +2,24 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { type NoteResponse, type CreateNoteRequest, type UpdateNoteRequest } from "@shared/routes";
 import { useToast } from "@/hooks/use-toast";
 
+// 1. The Main Hook (Getting Notes)
 export function useNotes() {
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-
-  const { data: notes, isLoading } = useQuery<NoteResponse[]>({
+  return useQuery<NoteResponse[]>({
     queryKey: ["/api/notes"],
     queryFn: async () => {
       const res = await fetch("/api/notes");
-      if (!res.ok) {
-        return [];
-      }
+      if (!res.ok) return [];
       return res.json();
     },
   });
+}
 
-  const createNote = useMutation({
+// 2. The Create Hook
+export function useCreateNote() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: async (note: CreateNoteRequest) => {
       const res = await fetch("/api/notes", {
         method: "POST",
@@ -35,8 +37,13 @@ export function useNotes() {
       toast({ title: "Error", description: "Could not save note.", variant: "destructive" });
     },
   });
+}
 
-  const updateNote = useMutation({
+// 3. The Update Hook
+export function useUpdateNote() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: async ({ id, ...note }: UpdateNoteRequest & { id: number }) => {
       const res = await fetch(`/api/notes/${id}`, {
         method: "PATCH",
@@ -50,8 +57,14 @@ export function useNotes() {
       queryClient.invalidateQueries({ queryKey: ["/api/notes"] });
     },
   });
+}
 
-  const deleteNote = useMutation({
+// 4. The Delete Hook
+export function useDeleteNote() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: async (id: number) => {
       await fetch(`/api/notes/${id}`, { method: "DELETE" });
     },
@@ -60,12 +73,4 @@ export function useNotes() {
       toast({ title: "Deleted", description: "Note removed." });
     },
   });
-
-  return { 
-    notes, 
-    isLoading, 
-    createNote: createNote.mutate,
-    updateNote: updateNote.mutate,
-    deleteNote: deleteNote.mutate
-  };
 }
